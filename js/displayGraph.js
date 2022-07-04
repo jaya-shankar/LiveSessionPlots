@@ -5,8 +5,8 @@ var file_name = ["graphs/20-24-Higher_Secondary_fin.png",
                 "graphs/gdp_per_capita (1).png",
                 "graphs/gdp_per_capita (1).png"]
 
-const jsonData= require('./plotNames.json'); 
-console.log(jsonData);
+// const jsonData= require('./plotNames.json'); 
+// console.log(jsonData);
 
 document.addEventListener('DOMContentLoaded', function() {
 
