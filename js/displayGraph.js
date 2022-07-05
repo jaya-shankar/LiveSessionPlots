@@ -1,4 +1,4 @@
-var file_names = ['8.png', '4.png', '5.png', '7.png', '6.png', '2.png', '3.png', '1.png'];
+var file_names = ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png', '7.png', '8.png'];
 document.addEventListener('DOMContentLoaded', function() {
 
     for (var i = 0; i < file_names.length; i++) {
