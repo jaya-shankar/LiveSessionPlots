@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     for (var i = 0; i < file_names.length; i++) {
         var img = document.createElement("img");
-        img.src = "graphs/1/"+file_names[i];
+        img.src = "graphs/2/"+file_names[i];
         img.className = 'centerImg'
         document.body.appendChild(img);
     }
