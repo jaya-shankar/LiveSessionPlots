@@ -1,4 +1,4 @@
-var file_names = ['1.png', '2.png', '3.png', '5.png', '6.png', '7.png', '8.png'];
+var file_names = ['1.png', '2.png', '3.png', '5.png', '6.png', '7.png', '8.png','9.png'];
 document.addEventListener('DOMContentLoaded', function() {
     let url = window.location.href;
     let folder_name = url.substring(url.lastIndexOf('page=') + 5);
