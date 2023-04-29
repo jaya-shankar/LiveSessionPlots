@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     for (var i = 0; i < file_names.length; i++) {
         var img = document.createElement("img");
         img.src = "graphs/"+folder_name+"/"+file_names[i];
+        // img.alt = "Graph";
         img.className = 'centerImg'
         document.body.appendChild(img);
     }
