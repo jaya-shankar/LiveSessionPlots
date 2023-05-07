@@ -33,12 +33,13 @@ col1, col2 = st.columns(2)
 selected_countries = st.multiselect("Select Countries", countries)
 selected_x = col1.selectbox("Select x axis", indices)
 selected_y = col2.selectbox("Select y axis", indices)
+selected_years = st.slider("Select years", 1960, 2015, (1960, 2015))
 
 # plot the line chart using Matplotlib
 fig, ax = plt.subplots()
 country_coords = None
 for selected_country in selected_countries:
-    country_coords = get_country_coords(selected_country, selected_x, selected_y)
+    country_coords = get_country_coords(selected_country, selected_x, selected_y,selected_years)
     ax.plot(country_coords["x"], country_coords["y"], label=selected_country)
 
 ax.set_xlabel(selected_x)
@@ -50,7 +51,7 @@ if country_coords is not None:
     col1, col2  = st.columns(2)
     file_name   = f"{selected_x[:3]}_{selected_y[:3]}"
 
-    csv_snippet = save_csv(selected_countries, selected_x, selected_y)
+    csv_snippet = save_csv(selected_countries, selected_x, selected_y, selected_years)
     with open("chart.csv", "rb") as f:
         data_bytes = f.read()
         col1.download_button(
