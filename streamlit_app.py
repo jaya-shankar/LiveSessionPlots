@@ -29,11 +29,43 @@ indices = [
 ]
 
 col1, col2 = st.columns(2)
+
+cleaned_indices ={
+    "pri_edu" : "Primary Education",
+    "ls_edu" : "Lower Secondary Education",
+    "hs_edu" : "Higher Secondary Education",
+    "clg_comp" : "College Completion",
+    "gdp" : "GDP per Capita",
+    "le" : "Life Expectancy",
+    "tfr" : "Total Fertility Rate",
+    "years" : "Years",
+    
+}
+
+
+params = st.experimental_get_query_params()
+selected_countries = params.get("c", countries)
+selected_countries = selected_countries[0].split(",")
+try:
+    selected_x = cleaned_indices[params.get("x", indices)[0]]
+except:
+    pass
+
+try:
+    selected_y = cleaned_indices[params.get("y", indices)[0]]
+except:
+    pass
+
+start_year = params.get("sy", 1960)[0]
+end_year = params.get("ey", 2015)[0]
+
+
 # Add a dropdown box to select a country
-selected_countries = st.multiselect("Select Countries", countries)
-selected_x = col1.selectbox("Select x axis", indices)
-selected_y = col2.selectbox("Select y axis", indices)
-selected_years = st.slider("Select years", 1960, 2015, (1960, 2015))
+selected_countries = st.multiselect("Select Countries", countries, selected_countries)
+
+selected_y = col1.selectbox("Select y axis", indices, index=indices.index(selected_y))
+selected_x = col2.selectbox("Select x axis", indices, index=indices.index(selected_x))
+selected_years = st.slider("Select years", 1960, 2015, (int(start_year), int(end_year)))
 
 # plot the line chart using Matplotlib
 fig, ax = plt.subplots()
@@ -75,5 +107,39 @@ st.pyplot(fig)
 
 
 st.write(
-    "**Note** : The graphs are plotted for data collected between the years 1960-2015"
+    "Passing the following query parameters to the URL will pre-select countries and indices:" 
 )
+st.markdown(
+    """
+    - `c`: comma-separated list of countries
+    - `x`: x-axis index
+    - `y`: y-axis index
+    - `sy`: start year
+    - `ey`: end year
+    """
+)
+
+st.markdown(
+    """
+    The following indices are available:
+    - `pri_edu`: Primary Education
+    - `ls_edu`: Lower Secondary Education
+    - `hs_edu`: Higher Secondary Education
+    - `clg_comp`: College Completion
+    - `gdp`: GDP per Capita
+    - `le`: Life Expectancy
+    - `tfr`: Total Fertility Rate
+    - `years`: Years
+    """
+)
+
+st.markdown(
+    """
+    Example:  
+    **_?c=South Korea,Argentina&x=pri_edu&y=le&sy=1960&ey=2015_**
+    
+    The following url is used to generate for **Primary Education vs Life Expectancy for South Korea and Argentina from 1960 to 2015**
+    """
+)
+
+
