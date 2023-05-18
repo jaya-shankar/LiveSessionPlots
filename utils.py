@@ -10,7 +10,7 @@ datasets_path = {
     "Total Fertility Rate": root + "children_per_woman_total_fertility.csv",
     "GDP per Capita": root + "gdppercapita_us_inflation_adjusted.csv",
     "Life Expectancy": root + "life_expectancy_years.csv",
-    "Years": root + "years.csv",
+    "Time": root + "years.csv",
     "india_tfr": root + "India/TFR.csv",
 }
 

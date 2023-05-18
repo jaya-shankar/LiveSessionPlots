@@ -15,8 +15,7 @@ st.title("Plots 🌎")
 le_df = pd.read_csv("./edu_datasets/life_expectancy_years.csv")
 
 countries = le_df["Country"].unique()
-# Create a list of countries
-# countries = ['South Korea','Argentina']
+
 indices = [
     "Primary Education",
     "Lower Secondary Education",
@@ -25,10 +24,9 @@ indices = [
     "GDP per Capita",
     "Life Expectancy",
     "Total Fertility Rate",
-    "Years",
+    "Time",
 ]
 
-col1, col2 = st.columns(2)
 
 cleaned_indices ={
     "pri_edu" : "Primary Education",
@@ -38,10 +36,13 @@ cleaned_indices ={
     "gdp" : "GDP per Capita",
     "le" : "Life Expectancy",
     "tfr" : "Total Fertility Rate",
-    "years" : "Years",
+    "time" : "Time",
     
 }
 
+cleaned_indices_reversed = {v: k for k, v in cleaned_indices.items()}
+
+col1, col2 = st.columns(2)
 
 params = st.experimental_get_query_params()
 selected_countries = params.get("c", countries)
@@ -71,9 +72,19 @@ except:
 # Add a dropdown box to select a country
 selected_countries = st.multiselect("Select Countries", countries, selected_countries)
 
-selected_y = col1.selectbox("Select y axis", indices, index=indices.index(selected_y))
-selected_x = col2.selectbox("Select x axis", indices, index=indices.index(selected_x))
-selected_years = st.slider("Select years", 1960, 2015, (int(start_year), int(end_year)))
+selected_y      = col1.selectbox("Select y axis", indices, index=indices.index(selected_y))
+selected_x      = col2.selectbox("Select x axis", indices, index=indices.index(selected_x))
+
+selected_years  = st.slider("Select years", 1960, 2015, (int(start_year), int(end_year)))
+
+st.experimental_set_query_params(
+    c=",".join(selected_countries),
+    x=cleaned_indices_reversed[selected_x],
+    y=cleaned_indices_reversed[selected_y],
+    sy=selected_years[0],
+    ey=selected_years[1],
+)
+
 
 # plot the line chart using Matplotlib
 fig, ax = plt.subplots()
@@ -84,7 +95,7 @@ for selected_country in selected_countries:
 
 ax.set_xlabel(selected_x)
 ax.set_ylabel(selected_y)
-ax.set_title(f"{selected_x} vs {selected_y}")
+ax.set_title(f"{selected_y} vs {selected_x}")
 ax.legend()
 
 if country_coords is not None:
@@ -150,40 +161,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# st.write(
-#     "Passing the following query parameters to the URL will pre-select countries and indices:" 
-# )
-# st.markdown(
-#     """
-#     - `c`: comma-separated list of countries
-#     - `x`: x-axis index
-#     - `y`: y-axis index
-#     - `sy`: start year
-#     - `ey`: end year
-#     """
-# )
 
-# st.markdown(
-#     """
-#     The following indices are available:
-#     - `pri_edu`: Primary Education
-#     - `ls_edu`: Lower Secondary Education
-#     - `hs_edu`: Higher Secondary Education
-#     - `clg_comp`: College Completion
-#     - `gdp`: GDP per Capita
-#     - `le`: Life Expectancy
-#     - `tfr`: Total Fertility Rate
-#     - `years`: Years
-#     """
-# )
-
-# st.markdown(
-#     """
-#     Example:  
-#     **_?c=South Korea,Argentina&x=pri_edu&y=le&sy=1960&ey=2015_**
-    
-#     The following url is used to generate for **Primary Education vs Life Expectancy for South Korea and Argentina from 1960 to 2015**
-#     """
-# )
 
 
