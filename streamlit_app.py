@@ -24,7 +24,7 @@ indices = [
     "GDP per Capita",
     "Life Expectancy",
     "Total Fertility Rate",
-    "Time",
+    "Years",
 ]
 
 
@@ -36,7 +36,7 @@ cleaned_indices ={
     "gdp" : "GDP per Capita",
     "le" : "Life Expectancy",
     "tfr" : "Total Fertility Rate",
-    "time" : "Time",
+    "time" : "Years",
     
 }
 
