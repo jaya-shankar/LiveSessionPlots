@@ -126,39 +126,48 @@ st.pyplot(fig)
 
 
 # hide the text to a dropdown
-st.markdown(
-    """
-    <details>
-    <summary style="font-size: 20px">Passing Input Parameters from URL</summary>
-    <br>
-    <p style="font-size: 15px">
-    Passing the following query parameters to the URL will pre-select countries and indices:
+# st.markdown(
+#     """
+#     <details>
+#     <summary style="font-size: 20px">Passing Input Parameters from URL</summary>
+#     <br>
+#     <p style="font-size: 15px">
+#     Passing the following query parameters to the URL will pre-select countries and indices:
     
-    - `c`: comma-separated list of countries
-    - `x`: x-axis index
-    - `y`: y-axis index
-    - `sy`: start year
-    - `ey`: end year
+#     - `c`: comma-separated list of countries
+#     - `x`: x-axis index
+#     - `y`: y-axis index
+#     - `sy`: start year
+#     - `ey`: end year
     
-    The following indices are available:
-    - `pri_edu`: Primary Education
-    - `ls_edu`: Lower Secondary Education
-    - `hs_edu`: Higher Secondary Education
-    - `clg_comp`: College Completion
-    - `gdp`: GDP per Capita
-    - `le`: Life Expectancy
-    - `tfr`: Total Fertility Rate
-    - `years`: Years
+#     The following indices are available:
+#     - `pri_edu`: Primary Education
+#     - `ls_edu`: Lower Secondary Education
+#     - `hs_edu`: Higher Secondary Education
+#     - `clg_comp`: College Completion
+#     - `gdp`: GDP per Capita
+#     - `le`: Life Expectancy
+#     - `tfr`: Total Fertility Rate
+#     - `years`: Years
     
-    Example:  
-    **_?c=South Korea,Argentina&x=pri_edu&y=le&sy=1960&ey=2015_**
+#     Example:  
+#     **_?c=South Korea,Argentina&x=pri_edu&y=le&sy=1960&ey=2015_**
     
-    The following url is used to generate for **Primary Education vs Life Expectancy for South Korea and Argentina from 1960 to 2015**
+#     The following url is used to generate for **Primary Education vs Life Expectancy for South Korea and Argentina from 1960 to 2015**
    
-    </p>
-    </details>
-    """,
-    unsafe_allow_html=True,
+#     </p>
+#     </details>
+#     """,
+#     unsafe_allow_html=True,
+# )
+st.markdown(
+"""**_Note_** :  the Education data used is only 20-25 year old age group women's education and data and it is as follows:
+
+- **Primary Education**           : 6 years of education
+- **Lower Secondary Education**   : 9 years of education
+- **Higher Secondary Education**  : 12 years of education
+- **College Completion**          : 16 years of education
+                        """
 )
 
 
