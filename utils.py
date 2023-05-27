@@ -54,7 +54,6 @@ def get_country_coords(country, x, y, years):
     df_3.dropna(inplace=True)
 
     df_3.drop(["year"], axis=1, inplace=True)
-    print(df_3)
     return df_3
 
 

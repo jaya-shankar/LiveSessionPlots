@@ -17,14 +17,6 @@ le_df = pd.read_csv("./edu_datasets/life_expectancy_years.csv")
 countries = le_df["Country"].unique()
 
 edu_indices = [
-    # "Female Primary Education",
-    # "Female Lower Secondary Education",
-    # "Female Higher Secondary Education",
-    # "Female College Completion",
-    # "Male Primary Education",
-    # "Male Lower Secondary Education",
-    # "Male Higher Secondary Education",
-    # "Male College Completion",
     "Primary Education",
     "Lower Secondary Education",
     "Higher Secondary Education",
@@ -70,10 +62,14 @@ cleaned_indices ={
 cleaned_indices_reversed = {v: k for k, v in cleaned_indices.items()}
 
 
+selected_options = []
+selected_ys = []
 
 params = st.experimental_get_query_params()
 selected_countries = params.get("c", countries)
 selected_countries = selected_countries[0].split(",")
+selected_options = params.get("gender", [])
+print("selected_options",selected_options)
 selected_x, selected_y = indices[0], indices[1]
 try:
     selected_x = cleaned_indices[params.get("x", indices)[0]]
@@ -100,27 +96,32 @@ col1, col2 = st.columns(2)
 selected_y      = col1.selectbox("Select y axis", indices, index=indices.index(selected_y))
 selected_x      = col2.selectbox("Select x axis", indices, index=indices.index(selected_x))
 
-selected_ys = []
+
 if(selected_y in edu_indices):
     options = ['Both', 'Male', 'Female']
-    selected_options = []
-
+    print("selected_options",selected_options)
     col1, col2, col3 = st.columns(3)
 
-    checkbox_state1 = col1.checkbox(options[0], value=True)
-    checkbox_state2 = col2.checkbox(options[1])
-    checkbox_state3 = col3.checkbox(options[2])
+    checkbox_state1 = col1.checkbox(options[0],value = options[0] in selected_options)
+    checkbox_state2 = col2.checkbox(options[1],value = options[1] in selected_options)
+    checkbox_state3 = col3.checkbox(options[2],value = options[2] in selected_options)
 
     if checkbox_state1:
         selected_options.append(options[0])
+    else:
+        selected_options = [option for option in selected_options if option != options[0]]
     if checkbox_state2:
         selected_options.append(options[1])
+    else:
+        selected_options = [option for option in selected_options if option != options[1]]
     if checkbox_state3:
         selected_options.append(options[2])
+    else:
+        selected_options = [option for option in selected_options if option != options[2]]
 
+    selected_options = list(set(selected_options))
     for selected_option in selected_options:
         selected_ys.append((selected_option + " " + selected_y,selected_option))
-        
     st.write(selected_y)
 else:
     selected_ys.append((selected_y,""))
@@ -134,13 +135,14 @@ selected_years  = st.slider("Select years", 1960, 2020, (int(start_year), int(en
 
 
 
-# st.experimental_set_query_params(
-#     c=",".join(selected_countries),
-#     x=cleaned_indices_reversed[selected_x],
-#     y=cleaned_indices_reversed[selected_y],
-#     sy=selected_years[0],
-#     ey=selected_years[1],
-# )
+st.experimental_set_query_params(
+    c=",".join(selected_countries),
+    x=cleaned_indices_reversed[selected_x],
+    y=cleaned_indices_reversed[selected_y],
+    sy=selected_years[0],
+    ey=selected_years[1],
+    gender=selected_options
+)
 
 
 # plot the line chart using Matplotlib
@@ -148,7 +150,6 @@ fig, ax = plt.subplots()
 country_coords = None
 for selected_country in selected_countries:
     for selected_y,gender in selected_ys:
-        print(selected_y)
         country_coords = get_country_coords(selected_country, selected_x, selected_y,selected_years)
         ax.plot(country_coords["x"], country_coords["y"], label=selected_country + " " + gender)
 
