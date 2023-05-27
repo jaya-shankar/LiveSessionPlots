@@ -17,6 +17,14 @@ le_df = pd.read_csv("./edu_datasets/life_expectancy_years.csv")
 countries = le_df["Country"].unique()
 
 indices = [
+    "Female Primary Education",
+    "Female Lower Secondary Education",
+    "Female Higher Secondary Education",
+    "Female College Completion",
+    "Male Primary Education",
+    "Male Lower Secondary Education",
+    "Male Higher Secondary Education",
+    "Male College Completion",
     "Primary Education",
     "Lower Secondary Education",
     "Higher Secondary Education",
@@ -29,6 +37,14 @@ indices = [
 
 
 cleaned_indices ={
+    "f_pri_edu" : "Female Primary Education",
+    "f_ls_edu" : "Female Lower Secondary Education",
+    "f_hs_edu" : "Female Higher Secondary Education",
+    "f_clg_comp" : "Female College Completion",
+    "m_pri_edu" : "Male Primary Education",
+    "m_ls_edu" : "Male Lower Secondary Education",
+    "m_hs_edu" : "Male Higher Secondary Education",
+    "m_clg_comp" : "Male College Completion",
     "pri_edu" : "Primary Education",
     "ls_edu" : "Lower Secondary Education",
     "hs_edu" : "Higher Secondary Education",
@@ -64,9 +80,9 @@ try:
 except:
     start_year = 1960
 try:
-    end_year = params.get("ey", 2015)[0]
+    end_year = params.get("ey", 2020)[0]
 except:
-    end_year = 2015
+    end_year = 2020
 
 
 # Add a dropdown box to select a country
@@ -75,7 +91,7 @@ selected_countries = st.multiselect("Select Countries", countries, selected_coun
 selected_y      = col1.selectbox("Select y axis", indices, index=indices.index(selected_y))
 selected_x      = col2.selectbox("Select x axis", indices, index=indices.index(selected_x))
 
-selected_years  = st.slider("Select years", 1960, 2015, (int(start_year), int(end_year)))
+selected_years  = st.slider("Select years", 1960, 2020, (int(start_year), int(end_year)))
 
 st.experimental_set_query_params(
     c=",".join(selected_countries),

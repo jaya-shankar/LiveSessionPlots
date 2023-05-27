@@ -3,14 +3,28 @@ import pandas as pd
 
 root = "./edu_datasets/"
 datasets_path = {
+    "Female Primary Education": root + "20-24-female-Primary_fin.csv",
+    "Female Lower Secondary Education": root + "20-24-female-Lower_Secondary_fin.csv",
+    "Female Higher Secondary Education": root + "20-24-female-Higher_Secondary_fin.csv",
+    "Female College Completion": root + "20-24-female-College_comp.csv",
+    
+    "Male Primary Education": root + "20-24-male-Primary_fin.csv",
+    "Male Lower Secondary Education": root + "20-24-male-Lower_Secondary_fin.csv",
+    "Male Higher Secondary Education": root + "20-24-male-Higher_Secondary_fin.csv",
+    "Male College Completion": root + "20-24-male-College_comp.csv",
+    
     "Primary Education": root + "20-24-Primary_fin.csv",
     "Lower Secondary Education": root + "20-24-Lower_Secondary_fin.csv",
     "Higher Secondary Education": root + "20-24-Higher_Secondary_fin.csv",
-    "College Completion": root + "College_comp.csv",
+    "College Completion": root + "20-24-College_comp.csv",
+    
     "Total Fertility Rate": root + "children_per_woman_total_fertility.csv",
-    "GDP per Capita": root + "gdppercapita_us_inflation_adjusted.csv",
     "Life Expectancy": root + "life_expectancy_years.csv",
+    
+    "GDP per Capita": root + "gdppercapita_us_inflation_adjusted.csv",
+    
     "Years": root + "years.csv",
+    
     "india_tfr": root + "India/TFR.csv",
 }
 
