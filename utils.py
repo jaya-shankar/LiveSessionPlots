@@ -13,10 +13,10 @@ datasets_path = {
     "Male Higher Secondary Education": root + "20-24-male-Higher_Secondary_fin.csv",
     "Male College Completion": root + "20-24-male-College_comp.csv",
     
-    "Primary Education": root + "20-24-Primary_fin.csv",
-    "Lower Secondary Education": root + "20-24-Lower_Secondary_fin.csv",
-    "Higher Secondary Education": root + "20-24-Higher_Secondary_fin.csv",
-    "College Completion": root + "20-24-College_comp.csv",
+    "Both Primary Education": root + "20-24-Primary_fin.csv",
+    "Both Lower Secondary Education": root + "20-24-Lower_Secondary_fin.csv",
+    "Both Higher Secondary Education": root + "20-24-Higher_Secondary_fin.csv",
+    "Both College Completion": root + "20-24-College_comp.csv",
     
     "Total Fertility Rate": root + "children_per_woman_total_fertility.csv",
     "Life Expectancy": root + "life_expectancy_years.csv",
@@ -54,7 +54,6 @@ def get_country_coords(country, x, y, years):
     df_3.dropna(inplace=True)
 
     df_3.drop(["year"], axis=1, inplace=True)
-
     return df_3
 
 

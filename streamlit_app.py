@@ -16,24 +16,27 @@ le_df = pd.read_csv("./edu_datasets/life_expectancy_years.csv")
 
 countries = le_df["Country"].unique()
 
-indices = [
-    "Female Primary Education",
-    "Female Lower Secondary Education",
-    "Female Higher Secondary Education",
-    "Female College Completion",
-    "Male Primary Education",
-    "Male Lower Secondary Education",
-    "Male Higher Secondary Education",
-    "Male College Completion",
+edu_indices = [
     "Primary Education",
     "Lower Secondary Education",
     "Higher Secondary Education",
     "College Completion",
-    "GDP per Capita",
-    "Life Expectancy",
+]
+
+health_indices = [
     "Total Fertility Rate",
+    "Life Expectancy",
+]
+
+econ_indices = [
+    "GDP per Capita",
+]
+
+time_indices = [
     "Years",
 ]
+
+indices = edu_indices + health_indices + econ_indices + time_indices
 
 
 cleaned_indices ={
@@ -58,11 +61,15 @@ cleaned_indices ={
 
 cleaned_indices_reversed = {v: k for k, v in cleaned_indices.items()}
 
-col1, col2 = st.columns(2)
+
+selected_options = []
+selected_ys = []
 
 params = st.experimental_get_query_params()
 selected_countries = params.get("c", countries)
 selected_countries = selected_countries[0].split(",")
+selected_options = params.get("gender", [])
+print("selected_options",selected_options)
 selected_x, selected_y = indices[0], indices[1]
 try:
     selected_x = cleaned_indices[params.get("x", indices)[0]]
@@ -74,7 +81,6 @@ try:
 except:
     pass
 
-
 try:
     start_year = params.get("sy", 1960)[0]
 except:
@@ -85,13 +91,49 @@ except:
     end_year = 2020
 
 
-# Add a dropdown box to select a country
-selected_countries = st.multiselect("Select Countries", countries, selected_countries)
+col1, col2 = st.columns(2)
 
 selected_y      = col1.selectbox("Select y axis", indices, index=indices.index(selected_y))
 selected_x      = col2.selectbox("Select x axis", indices, index=indices.index(selected_x))
 
+
+if(selected_y in edu_indices):
+    options = ['Both', 'Male', 'Female']
+    print("selected_options",selected_options)
+    col1, col2, col3 = st.columns(3)
+
+    checkbox_state1 = col1.checkbox(options[0],value = options[0] in selected_options)
+    checkbox_state2 = col2.checkbox(options[1],value = options[1] in selected_options)
+    checkbox_state3 = col3.checkbox(options[2],value = options[2] in selected_options)
+
+    if checkbox_state1:
+        selected_options.append(options[0])
+    else:
+        selected_options = [option for option in selected_options if option != options[0]]
+    if checkbox_state2:
+        selected_options.append(options[1])
+    else:
+        selected_options = [option for option in selected_options if option != options[1]]
+    if checkbox_state3:
+        selected_options.append(options[2])
+    else:
+        selected_options = [option for option in selected_options if option != options[2]]
+
+    selected_options = list(set(selected_options))
+    for selected_option in selected_options:
+        selected_ys.append((selected_option + " " + selected_y,selected_option))
+    st.write(selected_y)
+else:
+    selected_ys.append((selected_y,""))
+    
+if(selected_x in edu_indices):
+    selected_x = "Both " + selected_x
+# Add a dropdown box to select a country
+selected_countries = st.multiselect("Select Countries", countries, selected_countries)
+
 selected_years  = st.slider("Select years", 1960, 2020, (int(start_year), int(end_year)))
+
+
 
 st.experimental_set_query_params(
     c=",".join(selected_countries),
@@ -99,6 +141,7 @@ st.experimental_set_query_params(
     y=cleaned_indices_reversed[selected_y],
     sy=selected_years[0],
     ey=selected_years[1],
+    gender=selected_options
 )
 
 
@@ -106,8 +149,9 @@ st.experimental_set_query_params(
 fig, ax = plt.subplots()
 country_coords = None
 for selected_country in selected_countries:
-    country_coords = get_country_coords(selected_country, selected_x, selected_y,selected_years)
-    ax.plot(country_coords["x"], country_coords["y"], label=selected_country)
+    for selected_y,gender in selected_ys:
+        country_coords = get_country_coords(selected_country, selected_x, selected_y,selected_years)
+        ax.plot(country_coords["x"], country_coords["y"], label=selected_country + " " + gender)
 
 ax.set_xlabel(selected_x)
 ax.set_ylabel(selected_y)
@@ -141,43 +185,8 @@ if country_coords is not None:
 st.pyplot(fig)
 
 
-# hide the text to a dropdown
-# st.markdown(
-#     """
-#     <details>
-#     <summary style="font-size: 20px">Passing Input Parameters from URL</summary>
-#     <br>
-#     <p style="font-size: 15px">
-#     Passing the following query parameters to the URL will pre-select countries and indices:
-    
-#     - `c`: comma-separated list of countries
-#     - `x`: x-axis index
-#     - `y`: y-axis index
-#     - `sy`: start year
-#     - `ey`: end year
-    
-#     The following indices are available:
-#     - `pri_edu`: Primary Education
-#     - `ls_edu`: Lower Secondary Education
-#     - `hs_edu`: Higher Secondary Education
-#     - `clg_comp`: College Completion
-#     - `gdp`: GDP per Capita
-#     - `le`: Life Expectancy
-#     - `tfr`: Total Fertility Rate
-#     - `years`: Years
-    
-#     Example:  
-#     **_?c=South Korea,Argentina&x=pri_edu&y=le&sy=1960&ey=2015_**
-    
-#     The following url is used to generate for **Primary Education vs Life Expectancy for South Korea and Argentina from 1960 to 2015**
-   
-#     </p>
-#     </details>
-#     """,
-#     unsafe_allow_html=True,
-# )
 st.markdown(
-"""**_Note_** :  the Education data used is only 20-25 year old age group women's education and data and it is as follows:
+"""**_Note_** :  the Education data used is only 20-25 year old age group and data and it is as follows:
 
 - **Primary Education**           : 6 years of education
 - **Lower Secondary Education**   : 9 years of education
